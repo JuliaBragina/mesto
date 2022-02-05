@@ -11,4 +11,4 @@
 В данной работе использована методология БЭМ.
 
 GitHub Pages:
-https://juliabragina.github.io/russian-travel/
+https://juliabragina.github.io/mesto/
