@@ -1,0 +1,9 @@
+.profile__description{
+  margin: 0;
+}
+
+@media screen and (max-width: 768px){
+  .profile__description{
+    text-align: center;
+  }
+}

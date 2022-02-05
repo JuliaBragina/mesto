@@ -1,0 +1,12 @@
+.popup__item_el_description{
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 48px;
+  margin-left: 36px;
+  }
+
+  @media screen and (max-width: 560px){
+    .popup__item_el_description{
+      margin-left: 22px;
+    }
+  }
