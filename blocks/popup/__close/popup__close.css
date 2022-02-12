@@ -2,8 +2,8 @@
   border: none;
   cursor: pointer;
   position: absolute;
-  left: 438px;
-  bottom: 338px;
+  right: -34px;
+  top: -34px;
   background: url('../../../images/closeButton.svg') center no-repeat;
   height: 32px;
   width: 32px;
@@ -18,7 +18,9 @@
 
 @media screen and (max-width: 560px) {
   .popup__close{
-    left: 250px;
-    bottom: 356px;
+    right: 0;
+    top: -50px;
+    height: 20px;
+    width: 20px;
   } 
 }

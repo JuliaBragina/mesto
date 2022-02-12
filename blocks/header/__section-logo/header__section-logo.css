@@ -1,20 +1,16 @@
-.line{
-  border-top: 1px solid #545454;
-  opacity: .7;
-  padding-bottom: 40px;
+.header__section-logo{
   max-width: 880px;
   margin: 0 auto;
 }
 
 @media screen and (max-width: 1024px){
-  .line{
+  .header__section-logo{
     max-width: 68.8vw;
   }
 }
 
 @media screen and (max-width: 560px){
-  .line{
-    padding-bottom: 42px;
-    max-width: 100vw;
+  .header__section-logo{
+    max-width: 80.8vw;
   }
 }
