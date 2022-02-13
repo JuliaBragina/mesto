@@ -8,6 +8,7 @@
   object-fit: contain;
   background-size: 100%;
   transition: opacity .4s;
+  margin-right: 15px;
 }
 
 .elements__like-button:hover{

@@ -13,10 +13,7 @@
   <body class="root">
     <div class="page">
       <header class = "header">
-        <div class ="header__section-logo">
-          <img class="header__logo" alt="Логотип сервиса Mesto" src="./images/logo.svg">
-        </div> 
-        <hr class="header__line">
+        <img class="header__logo" alt="Логотип сервиса Mesto" src="./images/logo.svg">
       </header>
       
       <main class="content">
@@ -26,71 +23,59 @@
           <div class = "profile__info">
             <div class="profile__edit-container">
               <h1 class = "profile__name">Жак-Ив Кусто</h1>
-              <button type="button" class="profile__edit-button"></button>
+              <button type="button" aria-label = "Редактировать" class="profile__edit-button"></button>
             </div>
             <p class = "profile__description">Исследователь океана</p>
           </div>
-          <button type="button" class="profile__add-button"></button>
+          <button type="button" aria-label = "Добавить" class="profile__add-button"></button>
         </section>
         
         <section class="elements">
           <div class="elements__item">
             <img class="elements__img" alt="Карачаевск" src="./images/karachaevsk.jpg">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Карачаевск</h2>
-                <button type="button" class="elements__like-button"></button>
-              </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Карачаевск</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
 
           <div class="elements__item">
             <img class="elements__img" alt="Гора Эльбрус" src="./images/elbrys.png">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Гора Эльбрус</h2>
-                <button type="button" class="elements__like-button"></button>
-              </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Гора Эльбрус</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
 
           <div class="elements__item">
             <img class="elements__img" alt="Домбай" src="./images/dombay.png">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Домбай</h2>
-                <button type="button" class="elements__like-button"></button>
-              </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Домбай</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
 
           <div class="elements__item">
             <img class="elements__img" alt="Гора Эльбрус" src="./images/elbrys2.png">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Домбай</h2>
-                <button type="button" class="elements__like-button"></button>
-                </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Домбай</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
 
           <div class="elements__item">
             <img class="elements__img" alt="Домбай" src="./images/dombay2.jpg">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Домбай</h2>
-                <button type="button" class="elements__like-button"></button>
-              </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Домбай</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
 
           <div class="elements__item">
             <img class="elements__img" alt="Карачаево-Черкессия" src="./images/karachaevo-cherkesia.png">
-            <div class="elements__container">
-              <div class="elements__flex-container">
-                <h2 class="elements__title">Карачаево-Черкессия</h2>
-                <button type="button" class="elements__like-button"></button>
-              </div>
+            <div class="elements__flex-container">
+              <h2 class="elements__title">Карачаево-Черкессия</h2>
+              <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
             </div>
           </div>
         </section>
@@ -102,11 +87,11 @@
       <div class="popup">
         <div class="popup__container">
           <button type="button" class="popup__close"></button>
-          <form class="popup__form-name">
+          <form name="edit form" class="popup__form-name">
             <h2 class="popup__form-heading">Редактировать профиль</h2>
             <fieldset class="popup__form-container">
               <input type="text" name="name" class="popup__item popup__item_el_name" placeholder="Имя" value="" required>
-              <input type="text" name="name" class="popup__item popup__item_el_description" placeholder="Краткое описание" value="" required>
+              <input type="text" name="description" class="popup__item popup__item_el_description" placeholder="Краткое описание" value="" required>
               <input type="submit" class="popup__button" value="Сохранить">
             </fieldset>
           </form>

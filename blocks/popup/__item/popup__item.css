@@ -26,4 +26,7 @@
     width: 238px;
     margin-left: 22px;
   }
+  .popup__item:nth-last-of-type(2) {
+    margin-bottom: 45px;
+  }
 }

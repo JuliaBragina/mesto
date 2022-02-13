@@ -21,8 +21,6 @@ const closePopup = function(){
   popupElement.classList.remove('popup_is-opened');
 };
 
-popupOpenButtonElement.addEventListener('click', openlePopup);
-popupCloseButtonElement.addEventListener('click', closePopup);
 
 // Редактирование имени и описания из формы popup
 // Обработчик «отправки» формы
@@ -38,6 +36,9 @@ function formSubmitHandler (evt) {
 
   closePopup();
 }
+
+popupOpenButtonElement.addEventListener('click', openlePopup);
+popupCloseButtonElement.addEventListener('click', closePopup);
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
