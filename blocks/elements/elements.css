@@ -8,10 +8,11 @@
   padding-bottom: 66px;
 }
 
+
 @media screen and (max-width: 1024px){
   .elements{
-    max-width: 68.8vw;
-    grid-template-columns: repeat(2, minmax(250px, 503px));
+    max-width: 68.6vw;
+    grid-template-columns: repeat(2, 1fr);
     padding-bottom: 48px;
   }
 }
@@ -24,6 +25,6 @@
 
 @media screen and (max-width: 560px){
   .elements{
-    max-width: 88.1vw;
+    max-width: 87vw;
   }
 }

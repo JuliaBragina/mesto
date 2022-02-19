@@ -2,6 +2,10 @@
 @import url(../vendor/fonts/fonts.css);
 @import url(../blocks/root/root.css);
 
+@import url(../blocks/page/page.css);
+
+@import url(../blocks/content/content.css);
+
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 
@@ -20,7 +24,6 @@
 @import url(../blocks/elements/__item/elements__item.css);
 @import url(../blocks/elements/__like-button/elements__like-button.css);
 @import url(../blocks/elements/__like-button/_is-liked/elements__like-button_is-liked.css);
-@import url(../blocks/elements/__container/elements__container.css);
 @import url(../blocks/elements/__flex-container/elements__flex-container.css);
 
 @import url(../blocks/footer/__copyright/footer__copyright.css);
