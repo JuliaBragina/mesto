@@ -85,15 +85,29 @@
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
       </footer>
       
-      <div class="popup">
-        <div class="popup__container">
-          <button type="button" class="popup__close"></button>
-          <form name="edit-form" class="popup__form-name">
-            <h2 class="popup__form-heading">Редактировать профиль</h2>
-            <fieldset class="popup__form-container">
-              <input type="text" name="name" class="popup__item popup__item_el_name" placeholder="Имя" value="" required>
-              <input type="text" name="description" class="popup__item popup__item_el_description" placeholder="Краткое описание" value="" required>
-              <input type="submit" class="popup__button" value="Сохранить">
+      <div class="popup-edit popup-style">
+        <div class="popup-edit__container popup-container-style">
+          <button type="button" class="popup-edit__close popup-close-style"></button>
+          <form name="edit-form" class="popup-edit__form">
+            <h2 class="popup-edit__form-heading popup-heading-style">Редактировать профиль</h2>
+            <fieldset class="popup-edit__form-container popup-form-container-style">
+              <input type="text" name="name" class="popup-edit__item popup-item-style popup-edit__item_el_name" placeholder="Имя" value="" required>
+              <input type="text" name="description" class="popup-edit__item popup-item-style popup-edit__item_el_description" placeholder="Краткое описание" value="" required>
+              <input type="submit" class="popup-edit__button  popup-button-style" value="Сохранить">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup-add popup-style">
+        <div class="popup-add__container popup-container-style">
+          <button type="button" class="popup-add__close popup-close-style"></button>
+          <form name="add-form" class="popup-add__form">
+            <h2 class="popup-add__form-heading popup-heading-style">Новое место</h2>
+            <fieldset class="popup-add__form-container popup-form-container-style">
+              <input type="text" name="name" class="popup-add__item popup-item-style popup-add__item_el_name" placeholder="Имя" value="" required>
+              <input type="text" name="description" class="popup-add__item popup-item-style popup-add__item_el_description" placeholder="Ссылка" value="" required>
+              <input type="submit" class="popup-add__button  popup-button-style" value="Сохранить">
             </fieldset>
           </form>
         </div>

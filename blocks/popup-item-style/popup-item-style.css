@@ -1,4 +1,4 @@
-.popup__item{
+.popup-item-style{
   margin: 0 auto;
   padding: 0;
   margin-bottom: 30px;
@@ -9,24 +9,24 @@
   height: 27px;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
-  
+    
   font-family: 'Inter', Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
   color: #000;
 }
-
-.popup__item:nth-last-of-type(2) {
+  
+.popup-item-style:nth-last-of-type(2) {
   margin-bottom: 48px;
 }
-
+  
 @media screen and (max-width: 560px){
-  .popup__item{
+  .popup-item-style{
     width: 238px;
     margin-left: 22px;
   }
-  .popup__item:nth-last-of-type(2) {
+  .popup-item-style:nth-last-of-type(2) {
     margin-bottom: 45px;
   }
 }
