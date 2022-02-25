@@ -1,80 +1,21 @@
-// Форма редактирование профиля
-const popupElement = document.querySelector('.popup-edit');
-const popupCloseButtonElement = popupElement.querySelector('.popup-edit__close');
-const formElement = document.querySelector('.popup-edit__form');
+//Для формы редактирования 
+const popupEdit = document.querySelector('.popup-edit');
+const popupEditForm = popupEdit.querySelector('.popup-edit__form');
+const popupEditName = popupEditForm.querySelector('.popup-edit__item_el_name');
+const popupEditDescr = popupEditForm.querySelector('.popup-edit__item_el_description');
+const popupEditCloseButton = popupEdit.querySelector('.popup-edit__close');
+const profileEditOpenButton = document.querySelector('.profile__edit-button');
 
-let nameInput = formElement.querySelector('.popup-edit__item_el_name');
-let jobInput = formElement.querySelector('.popup-edit__item_el_description');
+//Для формы добавления карточки 
+const popupAdd = document.querySelector('.popup-add');
+const elementsContainer = document.querySelector('.elements'); //куда вставлять карточки
+const popupAddForm = document.querySelector('.popup-add__form');
+const popupAddCloseButton = popupAdd.querySelector('.popup-add__close');
+const profileAddOpenButton = document.querySelector('.profile__add-button');
 
-const popupOpenButtonElement = document.querySelector('.profile__edit-button');
 let outputContent = document.querySelector('.content');
 let nameOutput = outputContent.querySelector('.profile__name');
 let jobOutput = outputContent.querySelector('.profile__description');
-
-//Форма добавления карточки
-const popupAddElement = document.querySelector('.popup-add');
-const popupCloseButtonAddElement = popupAddElement.querySelector('.popup-add__close');
-const formAddElement = document.querySelector('.popup-add__form');
-const popupOpenButtonAddElement = document.querySelector('.profile__add-button');
-
-let namePlace = formAddElement.querySelector('.popup-add__item_el_name');
-let linkPlace = formAddElement.querySelector('.popup-add__item_el_description');
-
-// Открытие/закрытие формы для редактирования popup
-const openlePopup = function(){
-  popupElement.classList.add('popup-edit_is-opened');
-  // Предзаполнение полей
-  nameInput.value = nameOutput.textContent;
-  jobInput.value = jobOutput.textContent;
-};
-
-const closePopup = function(){
-  popupElement.classList.remove('popup-edit_is-opened');
-};
-
-// Открытие/закрытие формы для добавления карточки
-const openlePopupAdd = function(){
-  popupAddElement.classList.add('popup-add_is-opened');
-};
-
-const closePopupAdd = function(){
-  popupAddElement.classList.remove('popup-add_is-opened');
-};
-
-
-// Редактирование имени и описания из формы popup
-// Обработчик «отправки» формы
-function formSubmitHandler (evt) {
-  // Эта строчка отменяет стандартную отправку формы.  
-  evt.preventDefault();
-  // Получите значение полей jobInput и nameInput из свойства value
-  let nameInputValue = nameInput.value;
-  let jobInputValue = jobInput.value;
-  // Вставьте новые значения с помощью textContent
-  nameOutput.textContent = nameInputValue;
-  jobOutput.textContent = jobInputValue;
-
-  closePopup();
-}
-
-function formSubmitHandlerAdd (evt) {  
-  evt.preventDefault();
-  let namePlaceValue = namePlace.value;
-  let linkPlaceValue = linkPlace.value;
-  console.log(namePlaceValue, linkPlaceValue);
-  closePopupAdd();
-}
-
-popupOpenButtonElement.addEventListener('click', openlePopup);
-popupCloseButtonElement.addEventListener('click', closePopup);
-
-popupOpenButtonAddElement.addEventListener('click', openlePopupAdd);
-popupCloseButtonAddElement.addEventListener('click', closePopupAdd);
-
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»dd
-formElement.addEventListener('submit', formSubmitHandler);
-formAddElement.addEventListener('submit', formSubmitHandlerAdd);
 
 const initialCards = [
   {
@@ -102,4 +43,111 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//Лайк карточки
+function likeEventListener(item){
+  item.querySelector('.elements__like-button').addEventListener('click', handlerLiked);
+};
+
+function handlerLiked(event){
+  event.target.classList.toggle('elements__like-button_is-liked');
+};
+//Конец функции лайка карточки
+
+//Удаление карточки
+function deleteEventListeners (item){
+  item.querySelector('.elements__delete-button').addEventListener('click', handlerDelete);
+};
+
+function handlerDelete(event){
+  event.target.closest('.elements__item').remove();
+};
+//Конец удаления карточки
+
+//Открытие карточки
+function openEventListeners (item){
+  item.querySelector('.elements__img').addEventListener('click', handlerOpenPopup);
+};
+
+function handlerOpenPopup(event){
+  const popupImgElemnt = document.querySelector('.popup-img');
+  const itemElement = event.target.closest('.elements__item');
+  const imgElement = itemElement.querySelector('.elements__img');
+  const titleElement = itemElement.querySelector('.elements__title');
+  popupImgElemnt.querySelector('.popup-img__img').src = imgElement.src;
+  popupImgElemnt.querySelector('.popup-img__description').textContent = titleElement.textContent;
+  popupImgElemnt.classList.add('popup-img_is-opened');
+};
+//Конец открытия карточки
+
+//Закрытие карточки
+const closeImgPopup = document.querySelector('.popup-img__close').addEventListener('click', function(){
+  document.querySelector('.popup-img').classList.remove('popup-img_is-opened');
+});
+//Конец закрытия карточки
+
+//Редактирование личной информации
+const openPopupEditForm = function(){
+  popupEdit.classList.add('popup-edit_is-opened');
+  popupEditName.value = nameOutput.textContent;
+  popupEditDescr.value = jobOutput.textContent;
+};
+
+const closePopupEditForm = function(){
+  popupEdit.classList.remove('popup-edit_is-opened');
+};
+
+function handlerSubmit (evt) {
+  evt.preventDefault();
+  nameOutput.textContent = popupEditName.value;
+  jobOutput.textContent = popupEditDescr.value;
+  closePopupEditForm();
+}
+
+profileEditOpenButton.addEventListener('click', openPopupEditForm);
+popupEditCloseButton.addEventListener('click', closePopupEditForm);
+popupEditForm.addEventListener('submit', handlerSubmit);
+//Конец редактирования личной информации
+
+//Форма добавления карточки
+const openPopupAddForm = function(){
+  popupAdd.classList.add('popup-add_is-opened');
+};
+
+const closePopupAddForm = function(){
+  popupAdd.classList.remove('popup-add_is-opened');
+};
+
+popupAddCloseButton.addEventListener('click', closePopupAddForm);
+profileAddOpenButton.addEventListener('click', openPopupAddForm);
+
+popupAddForm.addEventListener('submit', function(evt) {
+  evt.preventDefault();
+  let namePlace = document.querySelector('.popup-add__item_el_name');
+  let linkPlace = document.querySelector('.popup-add__item_el_description');
+  
+  addCard(namePlace.value, linkPlace.value);
+  closePopupAddForm();
+});
+
+function addCard(namePlaceValue, linkPlaceValue){
+  const itemTemplate = document.querySelector('#elements__item').content;
+  const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true);
+
+  deleteEventListeners(itemElement);
+  openEventListeners(itemElement);
+
+  likeEventListener(itemElement);
+
+  itemElement.querySelector('.elements__img').src = linkPlaceValue;
+  itemElement.querySelector('.elements__title').textContent = namePlaceValue;
+
+  elementsContainer.prepend(itemElement);
+};
+//Конец формы добавления карточки 
+
+//Предзаполнение странички карточками
+initialCards.forEach((item) => {
+  addCard(item.name, item.link);
+});
 
