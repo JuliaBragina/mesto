@@ -39,7 +39,7 @@
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
       </footer>
       
-      <div class="popup-edit popup-style">
+      <div class="popup-edit popup">
         <div class="popup-edit__container popup-container-style">
           <button type="button" class="popup-edit__close popup-close-style"></button>
           <form name="edit-form" class="popup-edit__form">
@@ -53,14 +53,14 @@
         </div>
       </div>
 
-      <div class="popup-add popup-style">
+      <div class="popup-add popup">
         <div class="popup-add__container popup-container-style">
           <button type="button" class="popup-add__close popup-close-style"></button>
           <form name="add-form" class="popup-add__form">
             <h2 class="popup-add__form-heading popup-heading-style">Новое место</h2>
             <fieldset class="popup-add__form-container popup-form-container-style">
-              <input type="text" name="name" class="popup-add__item popup-item-style popup-add__item_el_name" placeholder="Имя" value="" required>
-              <input type="text" name="description" class="popup-add__item popup-item-style popup-add__item_el_description" placeholder="Ссылка" value="" required>
+              <input type="text" name="name" class="popup-add__item popup-item-style popup-add__item_el_name" placeholder="Название" value="" required>
+              <input type="text" name="description" class="popup-add__item popup-item-style popup-add__item_el_description" placeholder="Ссылка на картинку" value="" required>
               <input type="submit" class="popup-add__button  popup-button-style" value="Сохранить">
             </fieldset>
           </form>
@@ -68,11 +68,11 @@
       </div>
     </div>
 
-    <div class ="popup-img">
+    <div class ="popup-img popup popup_theme_dark">
       <div class="popup-img__container">
         <button type="button" class="popup-img__close popup-close-style"></button>
         <figure class="popup-img__section">
-          <img class="popup-img__img" alt="Изображение места" src="#">
+          <img class="popup-img__img" alt="" src="#">
           <figcaption class ="popup-img__description"></figcaption>
         </figure>
       </div>
@@ -80,7 +80,7 @@
 
     <template id="elements__item">
       <div class="elements__item">
-        <img class="elements__img" alt="Изображение маста" src="#">
+        <img class="elements__img" alt="" src="#">
         <button type="button" arial-label = "Удалить" class = "elements__delete-button"></button>
         <div class="elements__flex-container">
           <h2 class="elements__title"></h2>
@@ -89,6 +89,7 @@
       </div>
     </template>
 
+    <script src="scripts/cards.js"></script>
     <script src="scripts/index.js"></script>
   </body>
 </html>
