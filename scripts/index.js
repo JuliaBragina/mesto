@@ -11,14 +11,15 @@ const popupAdd = document.querySelector('.popup-add');
 const popupAddForm = document.querySelector('.popup-add__form');
 const popupAddCloseButton = popupAdd.querySelector('.popup-add__close');
 const profileAddOpenButton = document.querySelector('.profile__add-button');
-const namePlace = document.querySelector('.popup-add__item_el_name');
-const linkPlace = document.querySelector('.popup-add__item_el_description');
+const popupAddNamePlace = document.querySelector('.popup-add__item_el_name');
+const popupAddLinkPlace = document.querySelector('.popup-add__item_el_description');
 
 //куда вставлять карточки
 const elementsContainer = document.querySelector('.elements');
 
-//Для формы открытия карточки
+//Для формы открытия/закрытия карточки
 const popupImg = document.querySelector('.popup-img');
+const popupImgCloseButton = popupImg.querySelector('.popup-img__close');
 
 const itemTemplate = document.querySelector('#elements__item').content;
 
@@ -71,20 +72,20 @@ function handleOpenPopup(event){
 };
 //Конец открытия карточки
 
-//Закрытие карточки
-document.querySelector('.popup-img__close').addEventListener('click', function(){
-  closePopupForm(popupImg);
-});
-//Конец закрытия карточки
-
 //Редактирование личной информации
 function handleProfileFormSubmit (evt) {
-  evt.preventDefault();
   nameOutput.textContent = popupEditName.value;
   jobOutput.textContent = popupEditDescr.value;
   closePopupForm(popupEdit);
 }
 popupEditForm.addEventListener('submit', handleProfileFormSubmit);
+
+popupEditForm.addEventListener('submit', function (evt) { 
+  nameOutput.textContent = popupEditName.value;
+  jobOutput.textContent = popupEditDescr.value;
+  closePopupForm(popupEdit);
+});
+
 //Конец редактирования личной информации
 
 //Форма добавления карточки
@@ -107,8 +108,7 @@ function addCard(item){
 };
 
 function handleCardFormSubmit (evt) {
-  evt.preventDefault();
-  const customCard = createCard(namePlace.value, linkPlace.value);
+  const customCard = createCard(popupAddNamePlace.value, popupAddLinkPlace.value);
   addCard(customCard);
   closePopupForm(popupAdd);
 }
@@ -129,14 +129,69 @@ profileEditOpenButton.addEventListener('click', function(){
   openPopupForm(popupEdit);
 });
 
-popupEditCloseButton.addEventListener('click', function(){
-  closePopupForm(popupEdit);
-});
-
 profileAddOpenButton.addEventListener('click', function(){
   openPopupForm(popupAdd);
 });
 
+function clearInput (name, description){
+  name.classList.remove('popup-item_type_error');
+  description.classList.remove('popup-item_type_error');
+  name.classList.remove('popup__input-error_active');
+  description.classList.remove('popup__input-error_active');
+  name.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
+  description.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
+}
+
+popupImgCloseButton.addEventListener('click', function(){
+  closePopupForm(popupImg);
+});
+
+popupEditCloseButton.addEventListener('click', function(){
+  clearInput(popupEditName, popupEditDescr);
+  closePopupForm(popupEdit);
+});
+
 popupAddCloseButton.addEventListener('click', function(){
+  clearInput(popupAddNamePlace, popupAddLinkPlace);
+  popupAddNamePlace.value = "";
+  popupAddLinkPlace.value = "";
   closePopupForm(popupAdd);
 });
+
+popupImg.addEventListener('click', function(event){
+  if(event.target.classList.contains('popup_is_opened')){ 
+    closePopupForm(popupImg);
+}});
+
+popupEdit.addEventListener('click', function(event){
+  if(event.target.classList.contains('popup_is_opened')){ 
+    clearInput(popupEditName, popupEditDescr);
+    closePopupForm(popupEdit);
+}});
+
+popupAdd.addEventListener('click', function(event){
+  if(event.target.classList.contains('popup_is_opened')){ 
+    clearInput(popupAddNamePlace, popupAddLinkPlace);
+    popupAddNamePlace.value = "";
+    popupAddLinkPlace.value = "";
+    closePopupForm(popupAdd);
+}});
+
+function pressOnEsc(event){  
+  if(event.key === 'Escape'){
+    clearInput(popupEditName, popupEditDescr);
+    closePopupForm(popupEdit);
+  }
+  if(event.key === 'Escape'){
+    clearInput(popupAddNamePlace, popupAddLinkPlace);
+    popupAddNamePlace.value = "";
+    popupAddLinkPlace.value = "";
+    closePopupForm(popupAdd);
+  }
+  if(event.key === 'Escape'){
+    closePopupForm(popupImg);
+  }
+  event.target.removeEventListener('keydown', pressOnEsc);
+};
+
+document.addEventListener('keydown', pressOnEsc);
