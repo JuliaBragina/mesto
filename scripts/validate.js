@@ -27,13 +27,13 @@ const hideError = (formElement, inputElement, inputActiveClass, inputErrorClass,
   inputElement.classList.remove(inputActiveClass);
   inputElement.classList.remove(inputErrorClass);
   errorElement.textContent = " ";
+  
 };
 
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
-  const hasInvalidInput = inputList.some((inputElement) => {
+  let hasInvalidInput = inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
-
   if(hasInvalidInput){
     buttonElement.classList.add(inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
@@ -66,9 +66,6 @@ const setEventListeners = (formElement, objects) => {
 const enableValidation = (objects) => {
   const formsList = Array.from(document.querySelectorAll(objects.formSelector));
   formsList.forEach((element) => {
-    element.addEventListener("submit", (event) => {
-      event.preventDefault();
-    });
     setEventListeners(element, objects);
   });
 };

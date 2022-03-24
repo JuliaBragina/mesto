@@ -1,4 +1,4 @@
-.popup-close-style{
+.popup-close{
   border: none;
   cursor: pointer;
   position: absolute;
@@ -12,12 +12,12 @@
   transition: opacity .4s;
 }
   
-.popup-close-style:hover{
+.popup-close:hover{
   opacity: 0.6;
 }
 
 @media screen and (max-width: 560px) {
-  .popup-close-style{
+  .popup-close{
     right: 0;
     top: -35px;
     height: 20px;
