@@ -27,6 +27,8 @@ const outputContent = document.querySelector('.content');
 const nameOutput = outputContent.querySelector('.profile__name');
 const jobOutput = outputContent.querySelector('.profile__description');
 
+const popups = Array.from(document.querySelectorAll('.popup'));
+
 function disabledButton(popup){
   const popupButton = popup.querySelector('.popup-button'); 
   popupButton.classList.add('popup-button_inactive');
@@ -36,10 +38,12 @@ function disabledButton(popup){
 //Функции для открытия и закрытия popup
 function openPopupForm(popup){
   popup.classList.add('popup_is_opened');
+  document.addEventListener('keydown', closeByEscape)
 };
 
 function closePopupForm(popup){
   popup.classList.remove('popup_is_opened');
+  document.removeEventListener('keydown', closeByEscape)
 };
 
 //Лайк карточки
@@ -138,36 +142,31 @@ function clearInput (name, description){
   description.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
 }
 
-profileEditOpenButton.addEventListener('click', function(){
+function openEditForm(){
   clearInput(popupEditName, popupEditDescr);
   popupEditName.value = nameOutput.textContent;
   popupEditDescr.value = jobOutput.textContent;
   openPopupForm(popupEdit);
   disabledButton(popupEdit);
-});
-
-profileAddOpenButton.addEventListener('click', function(){
-  clearInput(popupAddNamePlace, popupAddLinkPlace);
-  popupAddNamePlace.value = "";
-  popupAddLinkPlace.value = "";
-  openPopupForm(popupAdd);
-  disabledButton(popupAdd);
-});
-
-const clickOnCloseButton = () => {
-  const formsList = Array.from(document.querySelectorAll('.popup-close'));
-  formsList.forEach((element) => {
-    element.addEventListener('click', () => {
-      closePopupForm(element.closest('.popup'));
-    });
-  });
 };
 
-const pressOnOverlay = () => {
-  const formsList = Array.from(document.querySelectorAll('.popup'));
-  formsList.forEach((element) => {
+function openAddForm(){
+  clearInput(popupAddNamePlace, popupAddLinkPlace);
+  document.getElementById('add-form').reset();
+  openPopupForm(popupAdd);
+  disabledButton(popupAdd);
+};
+
+profileEditOpenButton.addEventListener('click', openEditForm);
+profileAddOpenButton.addEventListener('click', openAddForm);
+
+const clickOnButtonOverlay = () => {
+  popups.forEach((element) => {
     element.addEventListener('click', (event) => {
       if(event.target.classList.contains('popup_is_opened')){ 
+        closePopupForm(element);
+      };
+      if(event.target.classList.contains('popup-close')){ 
         closePopupForm(element);
       };
     });
@@ -175,8 +174,7 @@ const pressOnOverlay = () => {
 };
 
 const pressOnEsc = () => {
-  const formsList = Array.from(document.querySelectorAll('.popup'));
-  formsList.forEach((element) => {
+  popups.forEach((element) => {
     document.addEventListener('keydown', (event) => {
     if(event.key === 'Escape'){ 
       if(element.classList.contains('popup_is_opened')){
@@ -188,9 +186,14 @@ const pressOnEsc = () => {
   });
 };
 
-clickOnCloseButton();
-pressOnOverlay();
-pressOnEsc();
+function closeByEscape(event) {
+  if (event.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_is_opened')
+    closePopupForm(popupOpened);
+  }
+} 
+
+clickOnButtonOverlay();
 
 const canselSending = () => {
   const formsList = Array.from(document.querySelectorAll('.popup__form'));
