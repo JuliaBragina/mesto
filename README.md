@@ -6,7 +6,9 @@
 1. flexbox, 
 2. grid,
 3. адаптивная верстка,
-4. использование JavaScript: querySelector, classList.add, classList.remove.
+4. использование JavaScript: querySelector, classList.add, classList.remove,
+5. ООП,
+6. export, import.
 
 В данной работе использована методология БЭМ.
 
