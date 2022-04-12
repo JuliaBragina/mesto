@@ -6,45 +6,26 @@ export class Card {
     this._handleOpenPopup = handleOpenPopup;
   }
 
-  //Лайк карточки
-  _likeEventListener(item){
-    item.querySelector('.elements__like-button').addEventListener('click', this._handleLiked);
-  };
-
-  _handleLiked(event){
-    event.target.classList.toggle('elements__like-button_is-liked');
-  };
-  //Конец функции лайка карточки
-
-  //Открытие карточки
-  _openEventListeners(item){
-    item.querySelector('.elements__img').addEventListener('click', this._handleOpenPopup);
-  };
-  //Конец открытия карточки
-
-  //Удаление карточки
-  _deleteEventListeners(item){
-    item.querySelector('.elements__delete-button').addEventListener('click', this._handleDelete);
-  };
-
-  _handleDelete(event){
-    event.target.closest('.elements__item').remove();
-  };
-  //Конец удаления карточки
-
   _setEventListeners () {
-    this._deleteEventListeners(this._itemElement);
-    this._openEventListeners(this._itemElement);
-    this._likeEventListener(this._itemElement);
+    this._itemElement.querySelector('.elements__delete-button').addEventListener('click', (event) => {
+      event.target.closest('.elements__item').remove();
+    });
+
+    this._itemElement.querySelector('.elements__img').addEventListener('click', this._handleOpenPopup);
+  
+    this._itemElement.querySelector('.elements__like-button').addEventListener('click', (event) => {
+      event.target.classList.toggle('elements__like-button_is-liked');
+    });
   }
 
   createCard() {
     this._itemElement = this._itemTemplate.querySelector('.elements__item').cloneNode(true);
-   
+    this._cardImage = this._itemElement.querySelector('.elements__img');
+
     this._setEventListeners ();
 
-    this._itemElement.querySelector('.elements__img').src = this._link;
-    this._itemElement.querySelector('.elements__img').alt = this._name;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
     this._itemElement.querySelector('.elements__title').textContent = this._name;
     
     return this._itemElement;

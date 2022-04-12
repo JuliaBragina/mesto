@@ -65,17 +65,11 @@ const initialCards = [
   }
 ];
 
-const addCardFormValidator = new FormValidator(objects, popupEditForm);
-const editCardFormValidator = new FormValidator(objects, popupAddForm);
+const editCardFormValidator = new FormValidator(objects, popupEditForm);
+const addCardFormValidator = new FormValidator(objects, popupAddForm);
 
 addCardFormValidator.enableValidation();
 editCardFormValidator.enableValidation();
-
-function disabledButton(popup){
-  const popupButton = popup.querySelector('.popup-button'); 
-  popupButton.classList.add('popup-button_inactive');
-  popupButton.setAttribute('disabled', true);
-}
 
 //Функции для открытия и закрытия popup
 function openPopupForm(popup){
@@ -83,13 +77,13 @@ function openPopupForm(popup){
   document.addEventListener('keydown', closeByEscape)
 };
 
-function closePopupForm(popup){
+function closePopupForm (popup) {
   popup.classList.remove('popup_is_opened');
   document.removeEventListener('keydown', closeByEscape)
 };
 
 //Открытие карточки
-function handleOpenPopup(event){ 
+function handleOpenPopup (event) { 
   const itemElement = event.target.closest('.elements__item');
   const imgElement = itemElement.querySelector('.elements__img');
   const titleElement = itemElement.querySelector('.elements__title');
@@ -112,52 +106,42 @@ popupEditForm.addEventListener('submit', function () {
   jobOutput.textContent = popupEditDescr.value;
   closePopupForm(popupEdit);
 });
-
 //Конец редактирования личной информации
 
-//Форма добавления карточки
-function addCard(item){
+//Добавление карточки
+function addCard (item) {
   elementsContainer.prepend(item);
 };
 
-function handleCardFormSubmit () {
-  const customCard = new Card(popupAddLinkPlace.value, popupAddNamePlace.value, '#elements__item', handleOpenPopup);
+function handleCardFormSubmit (link, place) {
+  const customCard = new Card(link, place, '#elements__item', handleOpenPopup);
   addCard(customCard.createCard());
-  closePopupForm(popupAdd);
 }
 
-//Предзаполнение странички карточками
 initialCards.forEach((item) => {
-  const renderCard = new Card(item.link, item.name, '#elements__item', handleOpenPopup);
-  addCard(renderCard.createCard());
+  handleCardFormSubmit(item.link, item.name);
 });
 
-popupAddForm.addEventListener('submit', handleCardFormSubmit);
-//Конец формы добавления карточки 
+popupAddForm.addEventListener('submit', () => {
+  handleCardFormSubmit(popupAddLinkPlace.value, popupAddNamePlace.value);
+  closePopupForm(popupAdd);
+});
+//Конец добавления карточки 
 
 //Открытие и закрытие карточек
-function clearInput (name, description){
-  name.classList.remove('popup-item_type_error');
-  description.classList.remove('popup-item_type_error');
-  name.classList.remove('popup__input-error_active');
-  description.classList.remove('popup__input-error_active');
-  name.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
-  description.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
-}
-
 function openEditForm(){
-  clearInput(popupEditName, popupEditDescr);
   popupEditName.value = nameOutput.textContent;
   popupEditDescr.value = jobOutput.textContent;
+  editCardFormValidator.clearErrorMessage();
+  editCardFormValidator.toggleButtonState();
   openPopupForm(popupEdit);
-  disabledButton(popupEdit);
 };
 
 function openAddForm(){
-  clearInput(popupAddNamePlace, popupAddLinkPlace);
-  document.getElementById('add-form').reset();
+  popupAddForm.reset();
+  addCardFormValidator.clearErrorMessage();
+  addCardFormValidator.toggleButtonState();
   openPopupForm(popupAdd);
-  disabledButton(popupAdd);
 };
 
 profileEditOpenButton.addEventListener('click', openEditForm);
