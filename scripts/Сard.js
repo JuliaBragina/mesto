@@ -8,20 +8,20 @@ export class Card {
 
   _setEventListeners () {
     this._itemElement.querySelector('.elements__delete-button').addEventListener('click', (event) => {
-      event.target.closest('.elements__item').remove();
+      this._itemElement.remove();
     });
 
     this._itemElement.querySelector('.elements__img').addEventListener('click', this._handleOpenPopup);
   
-    this._itemElement.querySelector('.elements__like-button').addEventListener('click', (event) => {
-      event.target.classList.toggle('elements__like-button_is-liked');
+    this._likeButton.addEventListener('click', () => {
+      this._likeButton.classList.toggle('elements__like-button_is-liked');
     });
   }
 
   createCard() {
     this._itemElement = this._itemTemplate.querySelector('.elements__item').cloneNode(true);
     this._cardImage = this._itemElement.querySelector('.elements__img');
-
+    this._likeButton = this._itemElement.querySelector('.elements__like-button');
     this._setEventListeners ();
 
     this._cardImage.src = this._link;

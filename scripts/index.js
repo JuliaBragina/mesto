@@ -1,5 +1,5 @@
 import { FormValidator } from './FormValidator.js';
-import { Card } from './Сards.js';
+import { Card } from './Сard.js';
 
 //Для формы редактирования 
 const popupEdit = document.querySelector('.popup-edit');
@@ -114,16 +114,17 @@ function addCard (item) {
 };
 
 function handleCardFormSubmit (link, place) {
-  const customCard = new Card(link, place, '#elements__item', handleOpenPopup);
-  addCard(customCard.createCard());
+  return new Card(link, place, '#elements__item', handleOpenPopup);
 }
 
 initialCards.forEach((item) => {
-  handleCardFormSubmit(item.link, item.name);
+  const card = handleCardFormSubmit(item.link, item.name);
+  addCard(card.createCard());
 });
 
 popupAddForm.addEventListener('submit', () => {
-  handleCardFormSubmit(popupAddLinkPlace.value, popupAddNamePlace.value);
+  const card = handleCardFormSubmit(popupAddLinkPlace.value, popupAddNamePlace.value);
+  addCard(card.createCard());
   closePopupForm(popupAdd);
 });
 //Конец добавления карточки 
