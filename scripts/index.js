@@ -114,17 +114,16 @@ function addCard (item) {
 };
 
 function handleCardFormSubmit (link, place) {
-  return new Card(link, place, '#elements__item', handleOpenPopup);
+  const newCard =  new Card(link, place, '#elements__item', handleOpenPopup);
+  return newCard.createCard();
 }
 
 initialCards.forEach((item) => {
-  const card = handleCardFormSubmit(item.link, item.name);
-  addCard(card.createCard());
+  addCard(handleCardFormSubmit(item.link, item.name));
 });
 
 popupAddForm.addEventListener('submit', () => {
-  const card = handleCardFormSubmit(popupAddLinkPlace.value, popupAddNamePlace.value);
-  addCard(card.createCard());
+  addCard(handleCardFormSubmit(popupAddLinkPlace.value, popupAddNamePlace.value));
   closePopupForm(popupAdd);
 });
 //Конец добавления карточки 
