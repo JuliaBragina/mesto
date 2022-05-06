@@ -22,7 +22,7 @@ export class FormValidator {
     
   // Функция, которая удаляет класс с ошибкой
   _hideError (inputElement) {
-    const { inputActiveClass, inputErrorClass,} = this._objects;
+    const { inputActiveClass, inputErrorClass } = this._objects;
 
     const errorElement = this._getErrorElement(inputElement);
     inputElement.classList.remove(inputActiveClass);
@@ -30,15 +30,9 @@ export class FormValidator {
     errorElement.textContent = " ";
   };
 
-  _clearInput (element) {
-    element.classList.remove('popup-item_type_error');
-    element.classList.remove('popup__input-error_active');
-    element.closest('.popup__section').querySelector('.popup__input-error').textContent = " ";
-  };
-
   clearErrorMessage () {
     this._inputList.forEach((element) => {
-      this._clearInput(element);
+      this._hideError(element);
     });
   };
 
