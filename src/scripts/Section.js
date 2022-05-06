@@ -12,7 +12,7 @@ export class Section {
   //метод, который отвечает за отрисовку всех элементов
   renderCards () {
    this._items.forEach((item) => {
-    this._renderer(item.link, item.name);
+    this._renderer(item);
    });
   }
   

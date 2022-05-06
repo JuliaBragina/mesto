@@ -1,21 +1,23 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); 
 
 module.exports = {
-  entry: { main: './src/index.js' },
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
-        publicPath: '',
+    filename: '[name].[contenthash].js',
+    publicPath: '',
     clean: true
   },
+  mode: 'production',
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+    }),
   ], 
   module: {
     rules: [
@@ -31,19 +33,32 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        use: 'babel-loader',
-        exclude: '/node_modules/'
+        exclude: '/node_modules/',
+        use: 'babel-loader'
       },
       {
-        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
-        type: 'asset/resource'
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name].[contenthash][ext][query]',
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext][query]',
+        }
       },
     ],
   },
   devServer: {
-    static: path.resolve(__dirname, './dist'),
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     compress: true,
-    port: 8080,
+    port: 9000,
     open: true
   },
-}
+  devtool: 'source-map'
+};

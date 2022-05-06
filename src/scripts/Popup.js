@@ -17,7 +17,7 @@ export default class Popup {
       if(event.target.classList.contains('popup_is_opened')){ 
           this.close();
         };
-        if(event.target.classList.contains('popup-close')){ 
+      if(event.target.classList.contains('popup-close')){ 
           this.close();
         };
       });
@@ -31,6 +31,7 @@ export default class Popup {
   
   open () {
     this._popup.classList.add('popup_is_opened');
+    //console.log(this._popup);
     document.addEventListener('keydown', this._handleEscClose);
   }
 }

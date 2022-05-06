@@ -2,10 +2,6 @@ export class UserInfo {
   constructor (selectorName, selectorInfo) {
     this._name = document.querySelector(selectorName);
     this._info = document.querySelector(selectorInfo);
-    this._getInfo = {
-      name: "",
-      description: ""
-    };
   }
   
   //возвращает объект с данными пользователя
@@ -19,8 +15,8 @@ export class UserInfo {
   }
   
   //принимает новые данные пользователя и добавляет их на страницу
-  setUserInfo (nameOut, infOut) {
-    this._name.value = nameOut;
-    this._info.value = infOut;
+  setUserInfo (setNewData) {
+    this._name.textContent = setNewData.name;
+    this._info.textContent = setNewData.description;
   }
 }

@@ -1,9 +1,9 @@
 export class Card {
-  constructor (link, name, cardTemplateElem, handleCardClick){
+  constructor ({data, cardTemplateElem, handleCardClick}) {
     this._itemTemplate = document.querySelector(cardTemplateElem).content;
-    this._link = link;
-    this._name = name;
-    this._handleCardClick= handleCardClick;
+    this._link = data.link;
+    this._name = data.name;
+    this._handleCardClick = handleCardClick;
   }
 
   _setEventListeners () {
@@ -11,7 +11,11 @@ export class Card {
       this._element.remove();
     });
 
-    this._element.querySelector('.elements__img').addEventListener('click', this._handleCardClick);
+    this._element.querySelector('.elements__img').addEventListener('click', () => {
+      this._handleCardClick({
+        link: this._link,
+        name: this._name});
+    });
   
     this._likeButton.addEventListener('click', () => {
       this._likeButton.classList.toggle('elements__like-button_is-liked');
@@ -26,13 +30,12 @@ export class Card {
   createCard() {
     this._element = this._getTamlateElement();
     this._likeButton = this._element.querySelector('.elements__like-button');
-        
-    this._setEventListeners ();
 
     this._element.querySelector('.elements__img').src = this._link;
     this._element.querySelector('.elements__img').alt = this._name;
     this._element.querySelector('.elements__title').textContent = this._name;
-    
+
+    this._setEventListeners ();    
     return this._element;
   }
 }

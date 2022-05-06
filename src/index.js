@@ -20,6 +20,10 @@ const outputContent = document.querySelector('.content');
 const nameOutput = outputContent.querySelector('.profile__name');
 const jobOutput = outputContent.querySelector('.profile__description');
 
+const popupName = document.querySelector('.popup-edit__item_el_name');
+const popupDescr = document.querySelector('.popup-edit__item_el_description');
+
+
 const objects = {
   formSelector: '.popup__form',
   popupItemSelector: '.popup-item',
@@ -64,32 +68,37 @@ const addCardFormValidator = new FormValidator(objects, popupAddForm);
 addCardFormValidator.enableValidation();
 editCardFormValidator.enableValidation();
 
-const openCloseImg = new PopupWithImage ({
-  popupSelector: '.popup-img'
-});
+const openCloseImg = new PopupWithImage ('.popup-img');
 
-openCloseImg.setEventListeners();
+const popupUserInfo = new UserInfo ('.profile__name', '.profile__description');
 
-const popupUserInfo = new UserInfo('.popup-edit__item_el_name', '.popup-edit__item_el_description');
+function doCard (data) {
+  const newCard =  new Card ({
+    data: data, 
+    cardTemplateElem: '#elements__item', 
+    handleCardClick: (dataCard) => {
+      openCloseImg.open(dataCard); 
+    }
+  });
+  return  newCard;
+}
 
 const openCloseAddForm = new PopupWithForm ({
   popupSelector: '.popup-add',
-  handleFormSubmit: (popupAddLinkPlace, popupAddNamePlace) => {
-    const newCard =  new Card(popupAddLinkPlace, popupAddNamePlace, '#elements__item', openCloseImg.open);
-    itemsCard.addItem(newCard.createCard());
+  handleFormSubmit: (popupData) => {
+    itemsCard.addItem(doCard(popupData).createCard());
     openCloseAddForm.close();
   }
 });
 
+openCloseImg.setEventListeners();
 openCloseAddForm.setEventListeners();
 
 const openCloseEditForm = new PopupWithForm ({
   popupSelector: '.popup-edit',
-  handleFormSubmit: () => {
+  handleFormSubmit: (dataUser) => {
+    popupUserInfo.setUserInfo(dataUser);
     openCloseEditForm.close();
-    const dir = popupUserInfo.getUserInfo();
-    nameOutput.textContent = dir.name.value;
-    jobOutput.textContent = dir.description.value;
   }
 });
 
@@ -97,21 +106,19 @@ openCloseEditForm.setEventListeners();
 
 const itemsCard = new Section ({
   items: initialCards, 
-  renderer: (link, place) => {
-    const newCard =  new Card(link, place, '#elements__item', openCloseImg.open);
-    itemsCard.addItem(newCard.createCard());
+  renderer: (dataCard) => {
+    itemsCard.addItem(doCard(dataCard).createCard());
   }
 }, '.elements');
 
 itemsCard.renderCards();
 
 //Открытие popups
-function openEditForm(){
-  popupUserInfo.setUserInfo(nameOutput.textContent, jobOutput.textContent);
-  const dir = popupUserInfo.getUserInfo();
+function openEditForm () {
+  popupUserInfo.getUserInfo();
 
-  dir.name.textContent = nameOutput.textContent;
-  dir.description.textContent = jobOutput.textContent;
+  popupName.value = popupUserInfo.getUserInfo().name.textContent;
+  popupDescr.value = popupUserInfo.getUserInfo().description.textContent;
 
   editCardFormValidator.clearErrorMessage();
   editCardFormValidator.toggleButtonState();
