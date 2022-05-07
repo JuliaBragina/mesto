@@ -8,8 +8,8 @@ export class UserInfo {
   //данные пользователя нужно будет подставить в форму при открытии
   getUserInfo () {
     this._getInfo = {
-      name: this._name,
-      description: this._info
+      name: this._name.textContent,
+      description: this._info.textContent
     };
     return this._getInfo;
   }

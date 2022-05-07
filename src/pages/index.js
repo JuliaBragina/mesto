@@ -1,11 +1,11 @@
-import { FormValidator } from './scripts/FormValidator.js';
-import { Card } from './scripts/Сard.js';
-import { Section } from './scripts/Section.js';
-import { PopupWithImage } from './scripts/PopupWithImage.js';
-import { PopupWithForm } from './scripts/PopupWithForm.js';
-import { UserInfo } from './scripts/UserInfo.js';
+import { FormValidator } from '../components/FormValidator'
+import { Card } from '../components/Сard.js';
+import { Section } from '../components/Section.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
 
-import './pages/index.css';
+import './index.css';
 
 //Для формы редактирования 
 const popupEdit = document.querySelector('.popup-edit');
@@ -15,10 +15,6 @@ const profileEditOpenButton = document.querySelector('.profile__edit-button');
 //Для формы добавления карточки 
 const popupAddForm = document.querySelector('.popup-add__form');
 const profileAddOpenButton = document.querySelector('.profile__add-button');
-
-const outputContent = document.querySelector('.content');
-const nameOutput = outputContent.querySelector('.profile__name');
-const jobOutput = outputContent.querySelector('.profile__description');
 
 const popupName = document.querySelector('.popup-edit__item_el_name');
 const popupDescr = document.querySelector('.popup-edit__item_el_description');
@@ -80,13 +76,13 @@ function doCard (data) {
       openCloseImg.open(dataCard); 
     }
   });
-  return  newCard;
+  return  newCard.createCard();
 }
 
 const openCloseAddForm = new PopupWithForm ({
   popupSelector: '.popup-add',
   handleFormSubmit: (popupData) => {
-    itemsCard.addItem(doCard(popupData).createCard());
+    itemsCard.addItem(doCard(popupData));
     openCloseAddForm.close();
   }
 });
@@ -107,7 +103,7 @@ openCloseEditForm.setEventListeners();
 const itemsCard = new Section ({
   items: initialCards, 
   renderer: (dataCard) => {
-    itemsCard.addItem(doCard(dataCard).createCard());
+    itemsCard.addItem(doCard(dataCard));
   }
 }, '.elements');
 
@@ -115,10 +111,10 @@ itemsCard.renderCards();
 
 //Открытие popups
 function openEditForm () {
-  popupUserInfo.getUserInfo();
+  const userInfo = popupUserInfo.getUserInfo();
 
-  popupName.value = popupUserInfo.getUserInfo().name.textContent;
-  popupDescr.value = popupUserInfo.getUserInfo().description.textContent;
+  popupName.value = userInfo.name;
+  popupDescr.value = userInfo.description;
 
   editCardFormValidator.clearErrorMessage();
   editCardFormValidator.toggleButtonState();
@@ -126,7 +122,6 @@ function openEditForm () {
 };
 
 function openAddForm(){
-  popupAddForm.reset();
   addCardFormValidator.clearErrorMessage();
   addCardFormValidator.toggleButtonState();
   openCloseAddForm.open();
