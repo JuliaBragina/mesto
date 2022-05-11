@@ -1,7 +1,18 @@
 export class UserInfo {
-  constructor (selectorName, selectorInfo) {
+  constructor (selectorName, selectorInfo, selectorAvatar, apiUser) {
     this._name = document.querySelector(selectorName);
     this._info = document.querySelector(selectorInfo);
+    this._avatar = document.querySelector(selectorAvatar);
+    this._apiUser = apiUser;
+  }
+
+  setUserInfoServer () {
+    const user = this._apiUser.getUser();
+    user.then((data) => {
+      this._name.textContent = data.name;
+      this._info.textContent = data.about;
+      this._avatar.src = data.avatar;
+    });
   }
   
   //возвращает объект с данными пользователя
@@ -18,5 +29,9 @@ export class UserInfo {
   setUserInfo (setNewData) {
     this._name.textContent = setNewData.name;
     this._info.textContent = setNewData.description;
+  }
+
+  setUserAvatar (setNewData) {
+    this._avatar.src = setNewData.avatar;
   }
 }
