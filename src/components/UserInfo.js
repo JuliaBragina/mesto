@@ -7,11 +7,11 @@ export class UserInfo {
   }
 
   setUserInfoServer () {
-    const user = this._apiUser.getUser();
-    user.then((data) => {
-      this._name.textContent = data.name;
-      this._info.textContent = data.about;
-      this._avatar.src = data.avatar;
+    this._apiUser.getUser()
+      .then((data) => {
+        this._name.textContent = data.name;
+        this._info.textContent = data.about;
+        this._avatar.src = data.avatar;
     });
   }
   
@@ -28,7 +28,7 @@ export class UserInfo {
   //принимает новые данные пользователя и добавляет их на страницу
   setUserInfo (setNewData) {
     this._name.textContent = setNewData.name;
-    this._info.textContent = setNewData.description;
+    this._info.textContent = setNewData.about;
   }
 
   setUserAvatar (setNewData) {

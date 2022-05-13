@@ -8,7 +8,8 @@
 3. адаптивная верстка,
 4. использование JavaScript: querySelector, classList.add, classList.remove,
 5. ООП,
-6. export, import.
+6. export, import
+7. работа с API.
 
 В данной работе использована методология БЭМ.
 

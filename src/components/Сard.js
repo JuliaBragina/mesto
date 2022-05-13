@@ -1,25 +1,29 @@
 import { ConfirmationPopup } from "./ConfirmationPopup.js";
-import { Api } from "./Api.js";
 
 export class Card {
-  constructor ({data, cardTemplateElem, handleCardClick}) {
+  constructor ({data, cardTemplateElem, handleCardClick}, api) {
     this._itemTemplate = document.querySelector(cardTemplateElem).content;
     this._link = data.link;
     this._name = data.name;
     this._likes = data.likes;
     this._id = data._id;
+    this._owner = data.owner;
     this._isLiked = false;
     this._handleCardClick = handleCardClick;
+    this._api = api;
+    this._myID = '373a3bc04de112d755b1d107';
+  }
+
+  _checkMyLikes () {
+    for(let i = 0; i<=this._likes.length-1; i++) {
+      if(this._likes[i]._id == this._myID) {
+        this._likeButton.classList.add('elements__like-button_is-liked');
+        this._isLiked == true;
+      }
+    }
   }
 
   _setEventListeners () {
-    this._element.querySelector('.elements__delete-button').addEventListener('click', () => {
-    const confirmPopup = new ConfirmationPopup(() => {
-      this._element.remove();
-    });
-    confirmPopup.open();
-    });
-
     this._element.querySelector('.elements__img').addEventListener('click', () => {
       this._handleCardClick({
         link: this._link,
@@ -28,24 +32,22 @@ export class Card {
 
     this._likeButton.addEventListener('click', () => {
       const cardId = this._id;
-      const api = new Api({
-        url: `https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}/likes`,
-        headers: {
-          authorization: '5907e0a2-56a3-4cfa-b788-58e2a6027744', //Идентификатор группы: cohort-40
-          "Content-Type": "application/json"
-       }
-      });
-
-      if( this._isLiked == false ){
-        this._likeButton.classList.toggle('elements__like-button_is-liked');
-        api.putLikes();
+      if( this._isLiked == false ) {
+        this._likeButton.classList.add('elements__like-button_is-liked');
+        this._api.putLikes(cardId)
+          .then((res) => {
+            this._element.querySelector('.elements__likes-quantity').textContent = res.likes.length;
+          });
         this._isLiked = true;
         return;
       }
       
-      if( this._isLiked == true ){
-        this._likeButton.classList.toggle('elements__like-button_is-liked');
-        api.deleteLikes();
+      if( this._isLiked == true ) {
+        this._likeButton.classList.remove('elements__like-button_is-liked');
+        this._api.deleteLikes(cardId)
+          .then((res) => {
+            this._element.querySelector('.elements__likes-quantity').textContent = res.likes.length;
+          });
         this._isLiked = false;
         return;
       }
@@ -58,9 +60,36 @@ export class Card {
     return itemElement;
   }
 
-  createCard() {
+  _createDeleteButton () {
+    const elementImg = this._element.querySelector('.elements__img');
+    const elementButton = document.createElement('button');
+    elementButton.classList.add('elements__delete-button');
+    elementImg.after(elementButton);
+  }
+
+  _setEventListenerDeleteButton () {
+    const cardId = this._id;
+    this._element.querySelector('.elements__delete-button').addEventListener('click', () => {
+      const confirmPopup = new ConfirmationPopup(this._api, this._element, cardId);
+      confirmPopup.open();
+      confirmPopup.confirmImage();
+    });
+  }
+
+  _checkOwner () {
+    if (this._owner._id == this._myID) {
+      this._createDeleteButton ();
+      this._setEventListenerDeleteButton ();
+    }
+  }
+
+  createCard() {    
     this._element = this._getTamlateElement();
     this._likeButton = this._element.querySelector('.elements__like-button');
+
+    this._checkOwner ();
+
+    this._checkMyLikes ();
 
     this._setEventListeners ();
 
