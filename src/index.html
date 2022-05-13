@@ -19,6 +19,7 @@
 
        <section class="profile">
           <img class="profile__avatar" alt = "Аватар" src="<%=require('./images/avatar.jpg')%>">
+          <button type="button" aria-label = "Редактировать" class = "profile__edit-avatar"></button>
           <div class = "profile__info">
             <div class="profile__edit-container">
               <h1 class = "profile__name">Жак-Ив Кусто</h1>
@@ -89,13 +90,42 @@
       </div>
     </div>
 
+    <div class ="popup-delete popup">
+      <div class="popup-delete__container popup-container-style">
+        <button type="button" class="popup-delete__close popup-close"></button>
+        <h2 class="popup-delete__form-heading popup-heading-style">Вы уверенны?</h2>
+        <fieldset class="popup-delete__form-container popup-form-container-style">
+          <button type="submit" class="popup-delete__button popup-button">Да</button>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class ="popup-update popup">
+      <div class="popup-update__container popup-container-style">
+        <button type="button" class="popup-update__close popup-close"></button>
+          <form id="update-form" name="update-form" class="popup-update__form popup__form" novalidate>
+            <h2 class="popup-update__form-heading popup-heading-style">Обновить аватар</h2>
+            <fieldset class="popup-update__form-container popup-form-container-style">
+              <section class="popup__section">
+                <input type="url" name="link" class="popup-update__item popup-item popup-update__item" placeholder="Ссылка на новый аватар" value="" autocomplete="off" required>
+                <span class="descr-input-error popup__input-error"></span>
+              </section>
+              <button type="submit" class="popup-update__button popup-button">Сохранить</button>
+            </fieldset>
+          </form>
+      </div>
+    </div>
+
     <template id="elements__item">
       <div class="elements__item">
         <img class="elements__img" alt="" src="#">
         <button type="button" arial-label = "Удалить" class = "elements__delete-button"></button>
         <div class="elements__flex-container">
           <h2 class="elements__title"></h2>
-          <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
+          <section class = "elements__section">
+            <button type="button" aria-label = "Нравится" class="elements__like-button"></button>
+            <p class="elements__likes-quantity" value=""></p>
+          </section>
         </div>
       </div>
     </template>

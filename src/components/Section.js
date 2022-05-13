@@ -1,3 +1,5 @@
+import { Api } from "./Api.js";
+
 //отвечает за отрисовку элементов на странице
 export class Section {
   constructor ({items, renderer}, containerSelector) {

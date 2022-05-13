@@ -4,6 +4,7 @@ import { Section } from '../components/Section.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { Api } from '../components/Api';
 
 import './index.css';
 
@@ -15,6 +16,9 @@ const profileEditOpenButton = document.querySelector('.profile__edit-button');
 //Для формы добавления карточки 
 const popupAddForm = document.querySelector('.popup-add__form');
 const profileAddOpenButton = document.querySelector('.profile__add-button');
+
+const popupUpdateFrom = document.querySelector('.popup-update');
+const profileUpdateAvatarButtnon = document.querySelector('.profile__avatar');
 
 const popupName = document.querySelector('.popup-edit__item_el_name');
 const popupDescr = document.querySelector('.popup-edit__item_el_description');
@@ -31,47 +35,62 @@ const objects = {
   inputErrorSelector: '.popup__input-error'
 }; 
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-40/cards',
+  headers: {
+    authorization: '5907e0a2-56a3-4cfa-b788-58e2a6027744', //Идентификатор группы: cohort-40
+    "Content-Type": "application/json"
   }
-];
+});
+
+const apiUser = new Api({
+  url: 'https://nomoreparties.co/v1/cohort-40/users/me',
+  headers: {
+    authorization: '5907e0a2-56a3-4cfa-b788-58e2a6027744', //Идентификатор группы: cohort-40
+    "Content-Type": "application/json"
+  }
+});
+
+const apiAvatar= new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar',
+  headers: {
+    authorization: '5907e0a2-56a3-4cfa-b788-58e2a6027744', //Идентификатор группы: cohort-40
+    "Content-Type": "application/json"
+  }
+});
+
+let itemsCard = 0;
+const cards = api.getAllCards(); //возвращает пропис, то дальше работаем асинхронно
+cards.then((data) => {
+
+  itemsCard = new Section ({
+    items: data, 
+    renderer: (dataCard) => {
+      itemsCard.addItem(doCard(dataCard));
+    }
+  }, '.elements');
+  
+  itemsCard.renderCards();
+
+}).catch((err) => alert(err));
 
 const editCardFormValidator = new FormValidator(objects, popupEditForm);
 const addCardFormValidator = new FormValidator(objects, popupAddForm);
+const updateFormValidator = new FormValidator(objects, popupUpdateFrom);
 
 addCardFormValidator.enableValidation();
 editCardFormValidator.enableValidation();
+updateFormValidator.enableValidation();
 
 const openCloseImg = new PopupWithImage ('.popup-img');
 
-const popupUserInfo = new UserInfo ('.profile__name', '.profile__description');
+const popupUserInfo = new UserInfo ('.profile__name', '.profile__description', '.profile__avatar', apiUser);
+popupUserInfo.setUserInfoServer();
 
 function doCard (data) {
   const newCard =  new Card ({
     data: data, 
-    cardTemplateElem: '#elements__item', 
+    cardTemplateElem: '#elements__item',
     handleCardClick: (dataCard) => {
       openCloseImg.open(dataCard); 
     }
@@ -82,7 +101,8 @@ function doCard (data) {
 const openCloseAddForm = new PopupWithForm ({
   popupSelector: '.popup-add',
   handleFormSubmit: (popupData) => {
-    itemsCard.addItem(doCard(popupData));
+  api.addCards(popupData)
+    .then((card) => itemsCard.addItem(doCard(card)));
     openCloseAddForm.close();
   }
 });
@@ -93,26 +113,29 @@ openCloseAddForm.setEventListeners();
 const openCloseEditForm = new PopupWithForm ({
   popupSelector: '.popup-edit',
   handleFormSubmit: (dataUser) => {
-    popupUserInfo.setUserInfo(dataUser);
-    openCloseEditForm.close();
+  apiUser.addUser(dataUser)
+    .then((info) => popupUserInfo.setUserInfo(info));
+  openCloseEditForm.close();
   }
 });
 
 openCloseEditForm.setEventListeners();
 
-const itemsCard = new Section ({
-  items: initialCards, 
-  renderer: (dataCard) => {
-    itemsCard.addItem(doCard(dataCard));
+const openCloseUpdateAvatarForm = new PopupWithForm ({
+  popupSelector: '.popup-update',
+  handleFormSubmit: (formValues) => {
+  apiAvatar.addNewAvatar(formValues)
+    .then((info) => popupUserInfo.setUserAvatar(info));
+  openCloseUpdateAvatarForm.close();
   }
-}, '.elements');
+});
 
-itemsCard.renderCards();
+openCloseUpdateAvatarForm.setEventListeners();
 
 //Открытие popups
 function openEditForm () {
   const userInfo = popupUserInfo.getUserInfo();
-
+  
   popupName.value = userInfo.name;
   popupDescr.value = userInfo.description;
 
@@ -121,14 +144,22 @@ function openEditForm () {
   openCloseEditForm.open();
 };
 
-function openAddForm(){
+function openAddForm () {
   addCardFormValidator.clearErrorMessage();
   addCardFormValidator.toggleButtonState();
   openCloseAddForm.open();
 };
 
+function openUpdateForm () {
+  updateFormValidator.clearErrorMessage();
+  updateFormValidator.toggleButtonState();
+  openCloseUpdateAvatarForm.open();
+}
+
+
 profileEditOpenButton.addEventListener('click', openEditForm);
 profileAddOpenButton.addEventListener('click', openAddForm);
+profileUpdateAvatarButtnon.addEventListener('click', openUpdateForm);
 
 const canselSending = () => {
   const formsList = Array.from(document.querySelectorAll('.popup__form'));
