@@ -1,11 +1,10 @@
 export class Api { 
   constructor (config) {
-    this._url = config.url;
     this._headers = config.headers;
   }
 
   getAllCards () { //возвращается промис 
-    return fetch (this._url, {
+    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
       method: 'GET',
       headers: this._headers
     }).then((res) => {
@@ -17,7 +16,7 @@ export class Api {
   }
 
   addCards (data) { 
-    return fetch (this._url, {
+    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -34,7 +33,7 @@ export class Api {
   }
 
   getUser () { 
-    return fetch (this._url, {
+    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me', {
       method: 'GET',
       headers: this._headers
     }).then((res) => {
@@ -46,7 +45,7 @@ export class Api {
   }
 
   addUser (data) { 
-    return fetch (this._url, {
+    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -62,7 +61,7 @@ export class Api {
   }
 
   addNewAvatar (data) { 
-    return fetch (this._url, {
+    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -76,8 +75,8 @@ export class Api {
     });
   }
   
-  putLikes () { 
-    return fetch (this._url, {
+  putLikes (cardId) { 
+    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers
     }).then((res) => {
@@ -88,8 +87,8 @@ export class Api {
     });
   }
 
-  deleteLikes () { 
-    return fetch (this._url, {
+  deleteLikes (cardId) {
+    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers
     }).then((res) => {
@@ -99,5 +98,16 @@ export class Api {
       return Promise.reject('Произошла ошибка');
     });
   }
-  
+
+  deletCard (cardId) { 
+    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._headers
+    }).then((res) => {
+      if(res.ok){
+        return res.json();
+      }
+      return Promise.reject('Произошла ошибка');
+    });
+  }
 }
