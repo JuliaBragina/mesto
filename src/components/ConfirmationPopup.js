@@ -1,22 +1,23 @@
 import Popup from "./Popup.js";
 
 export class ConfirmationPopup extends Popup {
-  constructor (api, element, cardId) {
-    super({popupSelector: '.popup-delete'});
-    //this._handleFormSubmit = handleFormSubmit; //this._element.remove();
-    this._api = api;
-    this._element = element;
-    this._cardId = cardId;
-    //this._cardID = cardID;
+  constructor (popupSelector) {
+    super({popupSelector});
   }
   
-  confirmImage () {
-    const confirmButton = this._popup.querySelector('.popup-delete__button');
-    confirmButton.addEventListener('click', () => {
-        this._api.deletCard(this._cardId)
-          .then(() => this._element.remove());
-        this.close();
+  setEventListeners () {
+    this._popup.addEventListener('submit', () => {
+      super.renderLoading(true, 'Удаление...');
+      this._deleteHandler()
+        .finally(() => {
+          super.close();
+          super.renderLoading(false, 'Да');
+        });
     });
     super.setEventListeners();
+  }
+
+  setHandler(deleteHandler) {
+    this._deleteHandler = deleteHandler;
   }
 }
