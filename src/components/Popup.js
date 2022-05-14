@@ -15,13 +15,23 @@ export default class Popup {
   setEventListeners () {
     this._popup.addEventListener('click', (event) => {
       if(event.target.classList.contains('popup_is_opened')){ 
-          this.close();
+        console.log('click');  
+        this.close();
         };
       if(event.target.classList.contains('popup-close')){ 
-          this.close();
+        console.log('click');  
+        this.close();
         };
       });
     }
+
+  renderLoading (isLoading, text) {
+    if(isLoading) {
+      this._popup.querySelector('.popup-button').textContent = text;
+    } else {
+      this._popup.querySelector('.popup-button').textContent = text;
+    }
+  }
 
   //отвечают за открытие и закрытие попапа
   close () {

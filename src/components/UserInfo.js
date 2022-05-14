@@ -5,16 +5,6 @@ export class UserInfo {
     this._avatar = document.querySelector(selectorAvatar);
     this._apiUser = apiUser;
   }
-
-  setUserInfoServer () {
-    this._apiUser.getUser()
-      .then((data) => {
-        this._name.textContent = data.name;
-        this._info.textContent = data.about;
-        this._avatar.src = data.avatar;
-    });
-  }
-  
   //возвращает объект с данными пользователя
   //данные пользователя нужно будет подставить в форму при открытии
   getUserInfo () {

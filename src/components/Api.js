@@ -1,22 +1,25 @@
 export class Api { 
   constructor (config) {
+    this._url = config.url;
     this._headers = config.headers;
   }
 
-  getAllCards () { //возвращается промис 
-    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
+  _errorHandler = (res) => {
+    if(res.ok){
+      return res.json();
+    }
+    return Promise.reject('Произошла ошибка');
+  }
+
+  getAllCards () {
+    return fetch (this._url + 'cards', {
       method: 'GET',
       headers: this._headers
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   addCards (data) { 
-    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
+    return fetch (this._url + 'cards', {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -24,90 +27,55 @@ export class Api {
           link: data.link,
           likes: data.likes
       })
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   getUser () { 
-    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me', {
+    return fetch (this._url + 'users/me', {
       method: 'GET',
       headers: this._headers
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   addUser (data) { 
-    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me', {
+    return fetch (this._url + 'users/me', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
           name: data.name,
           about: data.description
       })
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   addNewAvatar (data) { 
-    return fetch ('https://mesto.nomoreparties.co/v1/cohort-40/users/me/avatar', {
+    return fetch (this._url + 'users/me/avatar', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.link
       })
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
   
   putLikes (cardId) { 
-    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}/likes`, {
+    return fetch (this._url + `cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   deleteLikes (cardId) {
-    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}/likes`, {
+    return fetch (this._url + `cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 
   deletCard (cardId) { 
-    return fetch (`https://mesto.nomoreparties.co/v1/cohort-40/cards/${cardId}`, {
+    return fetch (this._url + `cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
-    }).then((res) => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject('Произошла ошибка');
-    });
+    }).then(this._errorHandler);
   }
 }
