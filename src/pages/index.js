@@ -40,37 +40,31 @@ addCardFormValidator.enableValidation();
 editCardFormValidator.enableValidation();
 updateFormValidator.enableValidation();
 
-//popupUserInfo.setUserInfoServer();
-//userId = popupUserInfo.getUserID();
-
 let userId = 0;
+let itemsCard = 0;
+
 api.getUser()
   .then((data) => {
     document.querySelector('.profile__name').textContent = data.name;
     document.querySelector('.profile__description').textContent = data.about;
     document.querySelector('.profile__avatar').src = data.avatar;
     userId = data._id;
-    console.log('Id_1 = ' + userId); // userId = data._id
+  })
+  .then(() => {
+    api.getAllCards()
+      .then((data) => {
+      itemsCard = new Section ({
+        items: data, 
+        renderer: (dataCard) => {
+          itemsCard.addItem(doCard(dataCard, userId));
+        }
+      }, '.elements');
+    itemsCard.renderCards();
+    })
+    .catch((err) => alert(err));
   });
 
-//while (userId == 0) {}
-userId = '373a3bc04de112d755b1d107';
-console.log('Id_2 = ' + userId); //0
-
-let itemsCard = 0;
-api.getAllCards()
-  .then((data) => {
-  itemsCard = new Section ({
-    items: data, 
-    renderer: (dataCard) => {
-      itemsCard.addItem(doCard(dataCard));
-    }
-  }, '.elements');
-  itemsCard.renderCards();
-})
-  .catch((err) => alert(err));
-
-function doCard (data) {
+function doCard (data, userId) {
   const newCard =  new Card ({
     data: data, 
     cardTemplateElem: '#elements__item',
@@ -89,7 +83,7 @@ const openCloseAddForm = new PopupWithForm ({
   popupSelector: '.popup-add',
   handleFormSubmit: (popupData) => {
   return api.addCards(popupData)
-    .then((card) => itemsCard.addItem(doCard(card)))
+    .then((card) => itemsCard.addItem(doCard(card, userId)))
     .catch((err) => alert(err));
   },
 });
