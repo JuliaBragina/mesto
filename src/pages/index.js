@@ -50,19 +50,19 @@ api.getUser()
     document.querySelector('.profile__avatar').src = data.avatar;
     userId = data._id;
   })
-  .then(() => {
-    api.getAllCards()
-      .then((data) => {
-      itemsCard = new Section ({
-        items: data, 
-        renderer: (dataCard) => {
-          itemsCard.addItem(doCard(dataCard, userId));
-        }
-      }, '.elements');
-    itemsCard.renderCards();
-    })
-    .catch((err) => alert(err));
-  });
+  .catch((err) => alert(err));
+
+api.getAllCards()
+  .then((data) => {
+    itemsCard = new Section ({
+      items: data, 
+      renderer: (dataCard) => {
+        itemsCard.addItem(doCard(dataCard, userId));
+      }
+    }, '.elements');
+  itemsCard.renderCards();
+  })
+  .catch((err) => alert(err));
 
 function doCard (data, userId) {
   const newCard =  new Card ({
