@@ -1,3 +1,4 @@
+import { popupEditForm, profileEditOpenButton, popupAddForm, profileAddOpenButton, popupUpdateFrom, profileUpdateAvatarButtnon, popupName, popupDescr } from '../utils/constants';
 import { FormValidator } from '../components/FormValidator'
 import { Card } from '../components/Сard.js';
 import { Section } from '../components/Section.js';
@@ -8,22 +9,6 @@ import { Api } from '../components/Api.js';
 import { ConfirmationPopup } from '../components/ConfirmationPopup.js';
 
 import './index.css';
-
-
-//Для формы редактирования 
-const popupEdit = document.querySelector('.popup-edit');
-const popupEditForm = popupEdit.querySelector('.popup-edit__form');
-const profileEditOpenButton = document.querySelector('.profile__edit-button');
-
-//Для формы добавления карточки 
-const popupAddForm = document.querySelector('.popup-add__form');
-const profileAddOpenButton = document.querySelector('.profile__add-button');
-
-const popupUpdateFrom = document.querySelector('.popup-update');
-const profileUpdateAvatarButtnon = document.querySelector('.profile__avatar');
-
-const popupName = document.querySelector('.popup-edit__item_el_name');
-const popupDescr = document.querySelector('.popup-edit__item_el_description');
 
 const objects = {
   formSelector: '.popup__form',
