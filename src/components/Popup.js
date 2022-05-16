@@ -2,6 +2,7 @@ export default class Popup {
   constructor ({popupSelector}){
     this._popupSelector = popupSelector;
     this._popup = document.querySelector(this._popupSelector);
+    this._popupButton = this._popup.querySelector('.popup-button');
   }
 
   //логику закрытия попапа клавишей Esc
@@ -13,7 +14,7 @@ export default class Popup {
 
   //добавляет слушатель клика иконке закрытия попапа
   setEventListeners () {
-    this._popup.addEventListener('click', (event) => {
+    this._popup.addEventListener('mousedown', (event) => {
       if(event.target.classList.contains('popup_is_opened')){ 
         this.close();
         };
@@ -23,12 +24,8 @@ export default class Popup {
       });
     }
 
-  renderLoading (isLoading, text) {
-    if(isLoading) {
-      this._popup.querySelector('.popup-button').textContent = text;
-    } else {
-      this._popup.querySelector('.popup-button').textContent = text;
-    }
+  renderLoading (text) {
+    this._popupButton.textContent = text;
   }
 
   //отвечают за открытие и закрытие попапа
