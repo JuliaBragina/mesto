@@ -1,4 +1,4 @@
-import { popupEditForm, profileEditOpenButton, popupAddForm, profileAddOpenButton, popupUpdateFrom, profileUpdateAvatarButtnon, popupName, popupDescr } from '../utils/constants';
+import { popupEditForm, profileEditOpenButton, popupAddForm, profileAddOpenButton, popupUpdateFrom, profileUpdateAvatarButtnon, popupName, popupDescr, objects } from '../utils/constants';
 import { FormValidator } from '../components/FormValidator'
 import { Card } from '../components/Сard.js';
 import { Section } from '../components/Section.js';
@@ -10,17 +10,6 @@ import { ConfirmationPopup } from '../components/ConfirmationPopup.js';
 
 import './index.css';
 
-const objects = {
-  formSelector: '.popup__form',
-  popupItemSelector: '.popup-item',
-  submitButtonSelector: '.popup-button',
-  inactiveButtonClass: 'popup-button_inactive',
-  inputErrorClass: 'popup-item_type_error',
-  inputActiveClass: 'popup__input-error_active',
-  popupSectionSelector: '.popup__section',
-  inputErrorSelector: '.popup__input-error'
-}; 
-
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-40/',
   headers: {
@@ -29,7 +18,7 @@ const api = new Api({
   }
 });
 const openCloseImg = new PopupWithImage ('.popup-img');
-const popupUserInfo = new UserInfo ('.profile__name', '.profile__description', '.profile__avatar', api);
+const popupUserInfo = new UserInfo ('.profile__name', '.profile__description', '.profile__avatar');
 const openCloseConfForm = new ConfirmationPopup ('.popup-delete');
 
 const editCardFormValidator = new FormValidator(objects, popupEditForm);
@@ -40,31 +29,32 @@ addCardFormValidator.enableValidation();
 editCardFormValidator.enableValidation();
 updateFormValidator.enableValidation();
 
-let userId = 0;
-let itemsCard = 0;
+let userId = null;
+let itemsCard = null;
 
-api.getUser()
-  .then((data) => {
-    document.querySelector('.profile__name').textContent = data.name;
-    document.querySelector('.profile__description').textContent = data.about;
-    document.querySelector('.profile__avatar').src = data.avatar;
-    userId = data._id;
-  })
-  .catch((err) => alert(err));
 
-api.getAllCards()
-  .then((data) => {
+Promise.all([api.getUser(), api.getAllCards()])
+  .then(([data, cards]) => {
+    popupUserInfo.setUserInfo({
+      name: data.name,
+      about: data.about
+    });
+    popupUserInfo.setUserAvatar(data);
+    popupUserInfo.setUserId(data._id);
+
     itemsCard = new Section ({
-      items: data, 
+      items: cards, 
       renderer: (dataCard) => {
-        itemsCard.addItem(doCard(dataCard, userId));
+        itemsCard.addItem(makeCard(dataCard, popupUserInfo.getUserId()));
       }
     }, '.elements');
-  itemsCard.renderCards();
-  })
-  .catch((err) => alert(err));
+    itemsCard.renderCards();
+    })
+  .catch(err => {
+    alert(err);
+  });
 
-function doCard (data, userId) {
+function makeCard (data, userId) {
   const newCard =  new Card ({
     data: data, 
     cardTemplateElem: '#elements__item',
@@ -83,7 +73,7 @@ const openCloseAddForm = new PopupWithForm ({
   popupSelector: '.popup-add',
   handleFormSubmit: (popupData) => {
   return api.addCards(popupData)
-    .then((card) => itemsCard.addItem(doCard(card, userId)))
+    .then((card) => itemsCard.addItem(makeCard(card, popupUserInfo.getUserId())))
     .catch((err) => alert(err));
   },
 });

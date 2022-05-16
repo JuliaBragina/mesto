@@ -7,11 +7,11 @@ export class ConfirmationPopup extends Popup {
   
   setEventListeners () {
     this._popup.addEventListener('submit', () => {
-      super.renderLoading(true, 'Удаление...');
+      super.renderLoading('Удаление...');
       this._deleteHandler()
+        .then(() => this.close())
         .finally(() => {
-          super.close();
-          super.renderLoading(false, 'Да');
+          super.renderLoading('Да');
         });
     });
     super.setEventListeners();

@@ -4,7 +4,7 @@ export class Api {
     this._headers = config.headers;
   }
 
-  _errorHandler = (res) => {
+  _checkResponse = (res) => {
     if(res.ok){
       return res.json();
     }
@@ -15,7 +15,7 @@ export class Api {
     return fetch (this._url + 'cards', {
       method: 'GET',
       headers: this._headers
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   addCards (data) { 
@@ -27,14 +27,14 @@ export class Api {
           link: data.link,
           likes: data.likes
       })
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   getUser () { 
     return fetch (this._url + 'users/me', {
       method: 'GET',
       headers: this._headers
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   addUser (data) { 
@@ -45,7 +45,7 @@ export class Api {
           name: data.name,
           about: data.description
       })
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   addNewAvatar (data) { 
@@ -55,27 +55,27 @@ export class Api {
       body: JSON.stringify({
         avatar: data.link
       })
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
   
   putLikes (cardId) { 
     return fetch (this._url + `cards/${cardId}/likes`, {
       method: 'PUT',
       headers: this._headers
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   deleteLikes (cardId) {
     return fetch (this._url + `cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: this._headers
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 
   deletCard (cardId) { 
     return fetch (this._url + `cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
-    }).then(this._errorHandler);
+    }).then(this._checkResponse);
   }
 }

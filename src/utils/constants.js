@@ -1,5 +1,5 @@
 //Для формы редактирования 
-export const popupEdit = document.querySelector('.popup-edit');
+const popupEdit = document.querySelector('.popup-edit');
 export const popupEditForm = popupEdit.querySelector('.popup-edit__form');
 export const profileEditOpenButton = document.querySelector('.profile__edit-button');
 
@@ -12,3 +12,14 @@ export const profileUpdateAvatarButtnon = document.querySelector('.profile__avat
 
 export const popupName = document.querySelector('.popup-edit__item_el_name');
 export const popupDescr = document.querySelector('.popup-edit__item_el_description');
+
+export const objects = {
+    formSelector: '.popup__form',
+    popupItemSelector: '.popup-item',
+    submitButtonSelector: '.popup-button',
+    inactiveButtonClass: 'popup-button_inactive',
+    inputErrorClass: 'popup-item_type_error',
+    inputActiveClass: 'popup__input-error_active',
+    popupSectionSelector: '.popup__section',
+    inputErrorSelector: '.popup__input-error'
+  }; 
